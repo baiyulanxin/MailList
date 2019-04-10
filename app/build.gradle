@@ -30,4 +30,5 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.android.support:support-annotations:27.1.1'
     compile 'pub.devrel:easypermissions:2.0.1'
+    compile 'com.zhy:okhttputils:2.6.2'
 }
