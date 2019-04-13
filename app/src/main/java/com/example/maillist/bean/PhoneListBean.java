@@ -3,14 +3,14 @@ package com.example.maillist.bean;
 import java.util.List;
 
 public class PhoneListBean {
-    private List<Phone> employees;
+    private List<Phone> employee;
 
-    public List<Phone> getEmployees() {
-        return employees;
+    public List<Phone> getEmployee() {
+        return employee;
     }
 
-    public void setEmployees(List<Phone> employees) {
-        this.employees = employees;
+    public void setEmployee(List<Phone> employee) {
+        this.employee = employee;
     }
 
     public static class Phone {

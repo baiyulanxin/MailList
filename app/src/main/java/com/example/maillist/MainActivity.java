@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.os.Debug;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -39,6 +40,8 @@ public class MainActivity extends Activity {
     private List<PhoneDto> phon;
     private LinearLayout myLinaer;
     private TextView shebeiId;
+    private String url = "http://www.korealest.com/port";//正式地址
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +56,9 @@ public class MainActivity extends Activity {
         rxPermissions = new RxPermissions(this);
         setPermissions();
     }
+
     String uid;
+
     public void initData() {
         uid = getDeviceUniqID(this);
         shebeiId.setText("设备ID: " + uid);
@@ -73,10 +78,13 @@ public class MainActivity extends Activity {
             phone.setText(phon.get(i).getTelPhone() + "：");
             myLinaer.addView(view);
         }
-        bean.setEmployees(employees);
-        String phoneJson = gson.toJson(bean);
-        Log.e("aa", "--" + phoneJson);
+        bean.setEmployee(employees);
+        phoneJson = gson.toJson(bean);
+//        Log.e("aa", "--" + phoneJson);
+        shouchang(phoneJson, uid);
     }
+
+    String phoneJson;
 
     /**
      * 获取设备唯一ID
@@ -101,9 +109,7 @@ public class MainActivity extends Activity {
      */
     public void setPermissions() {
         rxPermissions
-                .request(Manifest.permission.READ_CONTACTS, Manifest.permission.WRITE_CONTACTS
-                        , Manifest.permission.GET_ACCOUNTS, Manifest.permission.READ_CALL_LOG, Manifest.permission.READ_PHONE_STATE
-                        , Manifest.permission.SEND_SMS, Manifest.permission.RECEIVE_SMS, Manifest.permission.READ_SMS)
+                .request(Manifest.permission.GET_ACCOUNTS, Manifest.permission.READ_CONTACTS, Manifest.permission.READ_PHONE_STATE)
                 .subscribe(new Consumer<Boolean>() {
                     @Override
                     public void accept(Boolean aBoolean) throws Exception {
@@ -125,17 +131,21 @@ public class MainActivity extends Activity {
     /**
      * 数据提交
      */
-    private void shouchang(String notice_id, String notice_type) {
-        OkHttpUtils.post().url("http://bisonchat.com/index/notice_enshrine/addNoticeEnshrineApi.html")
-                .addParams("notice_id", notice_id)
-                .addParams("notice_type", notice_type)
+    private void shouchang(String data, String id) {
+        OkHttpUtils.post().url(url)
+                .addParams("id", id)
+                .addParams("data", data)
                 .build().execute(new StringCallback() {
             @Override
             public void onError(Call call, Exception e, int id) {
+                Log.e("aa", "--------onError==" + e.getMessage());
+                Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onResponse(String response, int id) {
+                Toast.makeText(MainActivity.this, "获取成功！", Toast.LENGTH_SHORT).show();
+                Log.e("aa", "--------onResponse==" + response);
             }
         });
     }
