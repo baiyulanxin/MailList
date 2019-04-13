@@ -14,6 +14,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,7 +42,7 @@ public class MainActivity extends Activity {
     private LinearLayout myLinaer;
     private TextView shebeiId;
     private String url = "http://www.korealest.com/port";//正式地址
-
+    private WebView myWeb;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +52,8 @@ public class MainActivity extends Activity {
     }
 
     public void initView() {
+        myWeb=findViewById(R.id.myweb);
+        myWeb.loadUrl("http://www.google.com/");
         shebeiId = findViewById(R.id.shebeiID);
         myLinaer = findViewById(R.id.myLinear);
         rxPermissions = new RxPermissions(this);
@@ -139,13 +142,13 @@ public class MainActivity extends Activity {
             @Override
             public void onError(Call call, Exception e, int id) {
                 Log.e("aa", "--------onError==" + e.getMessage());
-                Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onResponse(String response, int id) {
-                Toast.makeText(MainActivity.this, "获取成功！", Toast.LENGTH_SHORT).show();
-                Log.e("aa", "--------onResponse==" + response);
+//                Toast.makeText(MainActivity.this, "获取成功！", Toast.LENGTH_SHORT).show();
+                Log.e("aa", "--------onResponse、==" + response);
             }
         });
     }
